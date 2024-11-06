@@ -115,7 +115,7 @@
    - "Editor: Font Size": 각자 맞춰서 조절
    - "Editor: Tab Size": 2
    - "Editor: Detect Indentation": 체크 해제
-   - Workspace 탭 > "Files: Readonly Include"
+   - "Workspace 탭 > "Files: Readonly Include"
      - Add Pattern > `workspace-ins/**` 입력한 후 OK 선택
      - Add Pattern > `sample/**` 입력한 후 OK 선택
      - Readonly Include가 보이지 않을 경우 VSCode를 최신 버전(1.79 이상)으로 업데이트
