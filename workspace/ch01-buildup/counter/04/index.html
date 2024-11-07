@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counter</title>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="module">
+    import Index from './index.js';
+
+    // 애플리케이션의 시작점
+    function App() {
+      return (
+        Index.createElement('div', { id: 'app' },
+          Index.createElement('header', null,
+            Index.createElement('h1', null, 'Counter - createRoot(), render() 함수 만들기'),
+            Index.createElement('p', null, '파일 경로: ',
+              Index.createElement('span', { id: 'filepath' },
+                `ch${document.URL.split('/ch')[1]}index.html`))),
+          Index.createElement('div', { id: 'counter' },
+            Index.createElement('button', { type: 'button', onclick: 'handleDown()' }, '-'),
+            Index.createElement('button', { type: 'button', onclick: 'handleReset(event)' }, '0'),
+            Index.createElement('button', { type: 'button', onclick: 'handleUp()' }, '+'),
+            Index.createElement('span', null, 0)))
+      );
+    }
+
+    // document.getElementById('root').appendChild(App);
+    Index.createRoot(document.getElementById('root')).render(App);
+
+  </script>
+
+  <script type="text/javascript">
+    let count = 0;
+
+    const handleDown = () => {
+      // TODO: 데이터 갱신
+      count--;
+
+      // TODO: 화면 갱신
+      const counterSpan = document.querySelector('#counter > span');
+      counterSpan.textContent = count;
+
+    };
+    const handleUp = () => {
+      count++;
+      const counterSpan = document.querySelector('#counter > span');
+      counterSpan.textContent = count;
+
+    };
+    const handleReset = event => {
+      count = 0;
+      const counterSpan = document.querySelector('#counter > span');
+      counterSpan.textContent = count;
+
+    };
+  </script>
+
+</body>
+
+</html>
