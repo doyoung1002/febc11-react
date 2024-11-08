@@ -51,11 +51,16 @@ const index = (() => {
   // createRoot(document.getElementById('root')).render(App);
   // 클루저를 사용하게 됨
   const createRoot = (rootNode) => {
-
-    return {
+    let _appComponent;
+    return _root = {
       // 루트노드 하위에 지정한 함수를 실행해서 받은 컴포넌트를 렌더링 한다.
       render(appFn) {
-        rootNode.appendChild(appFn());
+        // 앞의 값이 null, undefined면 뒤에 값이 반환되고, 그 반대면 앞 값을 반환한다. 이 경우 처음에는 false이다.
+        _appComponent = _appComponent || appFn;
+        if (rootNode.firstChild) {
+          rootNode.firstChild.remove();
+        }
+        rootNode.appendChild(_appComponent());
       }
     };
   };
@@ -76,9 +81,11 @@ const index = (() => {
 
       // Object.is는 두 값이 같은지 비교해서 같지 않을 경우에(상태가 변경된 경우) 리렌더링 한다.
       if (!Object.is(oldValue, newValue)) {
-
+        _root.render();
       }
     }
+
+    return [_stateValue, setValue];
   };
 
 

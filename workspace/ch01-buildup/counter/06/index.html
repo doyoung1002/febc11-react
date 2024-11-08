@@ -25,16 +25,17 @@
 
     function Counter() {
       // let count = 0;
-      let [count, setCount] = Index.useState(10);
-
+      // 여기 변수는 마음대로 작성이 가능하다. 하지만 그 기능에 맞게 작성하는 것이 좋다.
+      const [count, setCount] = Index.useState(10);
+      // const로 바꿔야 하고, 값만 바꾸는 것이 아닌 메서드 통해 변경을 해야한다.
       const handleDown = () => {
-        count--;
+        setCount(count - 1);
       };
       const handleUp = () => {
-        count++;
+        setCount(count + 1);
       };
       const handleReset = event => {
-        count = 0;
+        setCount(0);
       };
 
       return (
