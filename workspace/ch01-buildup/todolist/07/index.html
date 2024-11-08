@@ -36,7 +36,7 @@
     }
 
     // 입력창 구성
-    function TodoInput() {
+    function TodoInput({ handleAdd, handleAddKeyup }) {
       return (
         index.createElement('div', { class: 'todoinput' },
           index.createElement('input', { type: 'text', autofocus: '', onkeyup: event => handleAddKeyup(event) }),
@@ -45,7 +45,9 @@
     }
 
     // 할 일 아이템 하나 구성
-    function TodoItem() {
+    // 구조분해할당으로 
+    // function TodoItem(props) { 에서 아래로 교체
+    function TodoItem({ item, toggleDone, deleteItem }) {
       return (
         index.createElement('li', { 'data-no': item.no },
           index.createElement('span', null, item.no),
@@ -56,20 +58,21 @@
     }
 
     // 할 일 목록 구성
-    function TodoList() {
+    function TodoList(props) {
+      const list = props.itemList.map((item) => TodoItem({ item, toggleDone: props.toggleDone, deleteItem: props.deleteItem }));
       return index.createElement('ul', { class: 'todolist' }, list);
     }
 
     // 할 일 구성
-    function Todo() {
+    function Todo(props) {
       return (
         index.createElement('div', { id: 'main' },
           index.createElement('div', { id: 'container' },
             index.createElement('ul', null,
               index.createElement('li', null,
                 index.createElement('h2', null, '쇼핑 목록'),
-                TodoInput,
-                TodoList))))
+                TodoInput({ handleAdd: props.handleAdd, handleAddKeyup: props.handleAddKeyup }),
+                TodoList({ itemList: props.itemList, toggleDone: props.toggleDone, deleteItem: props.deleteItem })))))
       );
     }
 
@@ -117,7 +120,7 @@
         itemList.push(item);
 
         // TODO: 화면 갱신
-        const liElem = getTodoItemElem(item);
+        const liElem = TodoItem({ item, toggleDone, deleteItem });
         const todolistElem = document.querySelector('.todolist');
         todolistElem.appendChild(liElem);
       }
@@ -151,10 +154,7 @@
         selectedLiElem.remove();
       }
 
-
-      const list = itemList.map((item) => getTodoItemElem(item));
-
-      return index.createElement('div', { id: 'todo' }, Header, Todo, Footer);
+      return index.createElement('div', { id: 'todo' }, Header, Todo({ handleAdd, handleAddKeyup, itemList, toggleDone, deleteItem }), Footer);
     }
 
     index.createRoot(document.getElementById('root')).render(App);
