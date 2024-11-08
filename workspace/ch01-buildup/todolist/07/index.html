@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List App</title>
+</head>
+
+<body>
+
+  <div id="root"></div>
+
+  <script type="module">
+    import index from '../index.js';
+
+    /*
+            ┌───────── App ──────────┐
+            │           │            │
+          Header       Todo        Footer
+                        │
+                    ┌───┴───┐
+              TodoInput   TodoList
+                            │
+                          TodoItem
+      */
+
+    // 헤더 구성
+    function Header() {
+      return (
+        index.createElement('header', null,
+          index.createElement('h1', null, 'Todo List - createElement() 사용 :)'),
+          index.createElement('p', null, '파일 경로: ',
+            index.createElement('span', { id: 'filepath' }, `ch${document.URL.split('/ch')[1]}index.html`)))
+      );
+    }
+
+    // 입력창 구성
+    function TodoInput() {
+      return (
+        index.createElement('div', { class: 'todoinput' },
+          index.createElement('input', { type: 'text', autofocus: '', onkeyup: event => handleAddKeyup(event) }),
+          index.createElement('button', { type: 'button', onclick: handleAdd }, '추가'))
+      );
+    }
+
+    // 할 일 아이템 하나 구성
+    function TodoItem() {
+      return (
+        index.createElement('li', { 'data-no': item.no },
+          index.createElement('span', null, item.no),
+          index.createElement('span', { onclick: () => toggleDone(item.no) },
+            item.done ? index.createElement('s', null, item.title) : item.title),
+          index.createElement('button', { onclick: () => deleteItem(item.no) }, '삭제'))
+      );
+    }
+
+    // 할 일 목록 구성
+    function TodoList() {
+      return index.createElement('ul', { class: 'todolist' }, list);
+    }
+
+    // 할 일 구성
+    function Todo() {
+      return (
+        index.createElement('div', { id: 'main' },
+          index.createElement('div', { id: 'container' },
+            index.createElement('ul', null,
+              index.createElement('li', null,
+                index.createElement('h2', null, '쇼핑 목록'),
+                TodoInput,
+                TodoList))))
+      );
+    }
+
+    // 푸터 구성
+    function Footer() {
+      return (
+        index.createElement('footer', null,
+          index.createElement('p', null, '멋쟁이 사자처럼 FrontEnd BootCamp'))
+      );
+    }
+
+    // Application 루트 컴포넌트
+    function App() {
+      // 샘플 목록
+      let itemList = [
+        { no: 1, title: '두부', done: true },
+        { no: 2, title: '계란', done: false },
+        { no: 3, title: '라면', done: true },
+      ];
+
+      // "추가" 클릭 이벤트 핸들러
+      const handleAdd = () => {
+        const inputElem = document.querySelector('.todoinput > input');
+        if (inputElem.value.trim() !== '') {
+          addItem(inputElem.value);
+          inputElem.value = '';
+          inputElem.focus();
+        }
+      };
+
+      // 엔터 이벤트 핸들러
+      const handleAddKeyup = (event) => {
+        if (event.key === 'Enter') handleAdd();
+      };
+
+      // 할일 추가
+      function addItem(title) {
+        const item = {
+          no: itemList[itemList.length - 1].no + 1,
+          title,
+          done: false,
+        };
+
+        // TODO: 데이터 갱신
+        itemList.push(item);
+
+        // TODO: 화면 갱신
+        const liElem = getTodoItemElem(item);
+        const todolistElem = document.querySelector('.todolist');
+        todolistElem.appendChild(liElem);
+      }
+
+      // 완료/미완료 처리
+      function toggleDone(no) {
+        // TODO: 데이터 갱신
+        let selectedItem = itemList.find(item => item.no === no);
+        selectedItem.done = !selectedItem.done;
+
+        // TODO: 화면 갱신
+        const selectedLiElem = document.querySelector(`.todolist > li[data-no="${no}"]`);
+        const titleSpanElem = selectedLiElem.children[1];
+        if (selectedItem.done) {
+          const sElem = document.createElement('s');
+          sElem.appendChild(titleSpanElem.firstChild);
+          titleSpanElem.appendChild(sElem);
+        } else {
+          titleSpanElem.appendChild(titleSpanElem.firstChild.firstChild);
+          titleSpanElem.firstChild.remove();
+        }
+      }
+
+      // 할일 삭제
+      function deleteItem(no) {
+        // TODO: 데이터 갱신
+        itemList = itemList.filter(item => item.no !== no);
+
+        // TODO: 화면 갱신
+        const selectedLiElem = document.querySelector(`.todolist > li[data-no="${no}"]`);
+        selectedLiElem.remove();
+      }
+
+
+      const list = itemList.map((item) => getTodoItemElem(item));
+
+      return index.createElement('div', { id: 'todo' }, Header, Todo, Footer);
+    }
+
+    index.createRoot(document.getElementById('root')).render(App);
+
+  </script>
+</body>
+
+</html>
