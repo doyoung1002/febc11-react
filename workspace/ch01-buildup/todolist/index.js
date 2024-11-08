@@ -82,10 +82,13 @@ const index = (() => {
       const oldValue = _stateValue; // 10
       _stateValue = newValue; // 11
 
-      console.log('상태가 변경됨?', oldValue, newValue);
       // Object.is는 두 값이 같은지 비교해서 같지 않을 경우에(상태가 변경된 경우) 리렌더링 한다.
+      // 객체일 때 같은 메모리 주소를 가지고 있다면 true
+      // 두 값이 모두 undefined or null 이면 true
+      // 두 값이 모두 true 이거나 false 이면 true
+      // String일 경우 두 값의 글자수, 순서, 모든 글자가 같으면 true
+      // Number일 경우 같은 값을 가지고 있고, 둘 다 NaN(Not a Number)이면 true
       if (!Object.is(oldValue, newValue)) {
-        console.log('리렌더링');
         _root.render();
       }
     }
