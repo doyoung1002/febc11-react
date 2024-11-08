@@ -82,8 +82,10 @@ const index = (() => {
       const oldValue = _stateValue; // 10
       _stateValue = newValue; // 11
 
+      console.log('상태가 변경됨?', oldValue, newValue);
       // Object.is는 두 값이 같은지 비교해서 같지 않을 경우에(상태가 변경된 경우) 리렌더링 한다.
       if (!Object.is(oldValue, newValue)) {
+        console.log('리렌더링');
         _root.render();
       }
     }
