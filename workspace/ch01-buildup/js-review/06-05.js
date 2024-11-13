@@ -29,11 +29,17 @@ function f2(f1Result) {
   })
 }
 
-function test() {
-  f1()
-    .then(f2)
-    .then((result) => console.log('8', result))
-    .catch((error) => console.error(error));
+// 동기함수 호출하듯이 비동기 함수로 실행되게끔 하는 것이 async, await
+// async를 붙이면 Promise를 리턴함.
+async function test() {
+  try {
+    const f1Result = await f1();
+    const result = await f2(f1Result);
+    console.log('8', result);
+    // return new Promise();
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 console.log('1. 테스트 시작.');
