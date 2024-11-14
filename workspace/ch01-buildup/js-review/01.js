@@ -7,13 +7,13 @@ var arr2 = [100, 400, 900];
 var arr2 = [];
 for (let i = 0; i < arr.length; i++) {
   arr2.push(arr[i] * arr[i]);
-};
+}
 
 // for of(ES6)
 var arr2 = [];
 for (let item of arr) {
   arr2.push(item * item);
-};
+}
 
 // Array.prototype.forEach(), ES5
 var arr2 = [];
@@ -28,7 +28,7 @@ arr.forEach(function (item, index) {
 // 항상 새로운 배열을 반환함
 // push 대신 return의 형태로 요소를 반환해야 한다.
 var arr2 = arr.map(function (item) {
-  return (item * item);
+  return item * item;
 });
 
 // Arrow function, ES6
@@ -36,7 +36,6 @@ var arr2 = [];
 arr.forEach((item, index) => arr2.push(item * item));
 
 // map
-var arr2 = arr.map(item => (item * item));
+var arr2 = arr.map((item) => item * item);
 
-
-console.log(arr2);  // [100, 400, 900]
+console.log(arr2); // [100, 400, 900]
