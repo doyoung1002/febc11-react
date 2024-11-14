@@ -1,11 +1,10 @@
 // 지정한 수가 소수인지 여부를 반환
-var isPrime = function(num){
+var isPrime = function (num) {
   console.time('소요 시간');
   console.log('소수 판별 시작.', num);
 
   // TODO: 소수 판별 코드
-  let prime = true;
-
+  let prime = num; // 1은 소수가 아님
 
   console.log('소수 판별 결과.', prime);
   console.timeEnd('소요 시간');
