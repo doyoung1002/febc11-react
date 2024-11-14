@@ -34,7 +34,7 @@ var isPrime2 = function (num) {
 // 지정한 함수에 memoization 기능 추가
 function memo(fn) {
   return function (args) {
-    fn._cache = fn._cache || {}; // 123
+    fn._cache = fn._cache || {};
     if (fn._cache[args] !== undefined) {
       console.log('cache hit!', args, fn._cache[args]);
       return fn._cache[args];
