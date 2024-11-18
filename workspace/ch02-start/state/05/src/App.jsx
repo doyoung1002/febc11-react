@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 const errorStyle = {
   fontSize: '12px',
@@ -15,25 +14,28 @@ function App() {
   // const [email, setEmail] = useState('');
   // const [cellphone, setCellphone] = useState('010');
 
-  // const handleNameChange = (event) => {
-  //   setName(event.target.value);
-  // };
-
-  // const handleEmailChange = (event) => {
-  //   setEmail(event.target.value);
-  // };
-
-  // const handleCellphoneChange = (event) => {
-  //   setCellphone(event.target.value);
-  // };
-
   const [user, setUser] = useState({
     name: '',
     email: '',
     cellphone: '010',
   });
 
+  // DOM 객체에 직접 접근하려고 할 때
+  const nameElem = useRef(null);
+  const emailElem = useRef(null);
+  const cellphoneElem = useRef(null);
+
   const [errors, setErrors] = useState({});
+
+  // const handleNameChange = (event) => {
+  //   setName(event.target.value);
+  // };
+  // const handleEmailChange = (event) => {
+  //   setEmail(event.target.value);
+  // };
+  // const handleCellphoneChange = (event) => {
+  //   setCellphone(event.target.value);
+  // };
 
   const handleChange = (event) => {
     const newUser = {
@@ -53,32 +55,41 @@ function App() {
       newErrors = {
         name: { message: '이름을 입력하세요.' },
       };
+      nameElem.current.focus();
     } else if (user.name.trim().length < 2) {
       newErrors = {
         name: { message: '2글자 이상 입력하세요.' },
       };
+      nameElem.current.focus();
     } else if (user.email.trim() === '') {
       newErrors = {
         email: { message: '이메일을 입력하세요.' },
       };
+      emailElem.current.focus();
     } else if (user.cellphone.trim() === '') {
       newErrors = {
         cellphone: { message: '휴대폰 번호를 입력하세요.' },
       };
-    } else if (emailExp.test(user.email)) {
+      cellphoneElem.current.focus();
+    } else if (emailExp.test(user.email) === false) {
       newErrors = {
         email: { message: '이메일 양식에 맞지 않습니다.' },
       };
-    } else if (cellphoneExp.text(user.cellphone)) {
+      emailElem.current.focus();
+    } else if (cellphoneExp.test(user.cellphone) === false) {
       newErrors = {
         cellphone: { message: '휴대폰 형식에 맞지 않습니다.' },
       };
+      cellphoneElem.current.focus();
     }
 
     if (newErrors) {
+      // 검증 실패
       setErrors(newErrors);
     } else {
+      // 검증 통과
       setErrors({});
+      console.log('서버에 전송', user);
     }
   };
 
@@ -93,6 +104,7 @@ function App() {
           name='name'
           value={user.name}
           onChange={handleChange}
+          ref={nameElem}
         />
         <br />
         <div style={errorStyle}>{errors.name?.message}</div>
@@ -103,6 +115,7 @@ function App() {
           name='email'
           value={user.email}
           onChange={handleChange}
+          ref={emailElem}
         />
         <br />
         <div style={errorStyle}>{errors.email?.message}</div>
@@ -113,6 +126,7 @@ function App() {
           name='cellphone'
           value={user.cellphone}
           onChange={handleChange}
+          ref={cellphoneElem}
         />
         <br />
         <div style={errorStyle}>{errors.cellphone?.message}</div>
@@ -121,9 +135,11 @@ function App() {
       </form>
 
       <p>
-        이름: <br />
-        이메일: <br />
-        휴대폰: <br />
+        이름: {user.name} <br />
+        이메일: {user.email}
+        <br />
+        휴대폰: {user.cellphone}
+        <br />
       </p>
     </>
   );
