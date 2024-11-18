@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import EditAddress from './components/EditAddress';
+import { produce } from 'immer';
 
 function App() {
   const [user, setUser] = useState({
@@ -35,26 +36,34 @@ function App() {
     // address.value = event.target.value;
     // const newState = { ...user };
 
+    // 하드코딩
     // 상태의 불병성을 지키기 위해 복잡한 추가 작업 필요
     // 아래 값이 변경이 되면, 원본은 그대로인 상태에서 새로운 객체로 값을 변경해야하므로,
     // 아래와 객체를 새로 만들어, 바뀐 값만 선택적으로 변경
-    const newAddressBook = user.extra.addressBook.map((address) => {
-      if (address.id === Number(event.target.name)) {
-        return { ...address, value: event.target.value };
-      } else {
-        return address;
-      }
-    });
+    // const newAddressBook = user.extra.addressBook.map((address) => {
+    //   if (address.id === Number(event.target.name)) {
+    //     return { ...address, value: event.target.value };
+    //   } else {
+    //     return address;
+    //   }
+    // });
 
     // 아래 값이 변경이 되면 상위의 객체를 같은 곳을 참조하면 안되기 때문에, 그 상위 객체도 똑같이 복사 후
     // 값 변경된 것을 참조할 수 있도록 함
-    const newState = {
-      ...user,
-      extra: {
-        ...user.extra,
-        addressBook: newAddressBook,
-      },
-    };
+    // const newState = {
+    //   ...user,
+    //   extra: {
+    //     ...user.extra,
+    //     addressBook: newAddressBook,
+    //   },
+    // };
+
+    // immer를 사용해서 불변성 유지
+    // user를 복사한 새로운 객체(draft)를 만들어서 반환
+    const newState = produce(user, (draft) => {
+      const address = draft.extra.addressBook.find((address) => address.id === Number(event.target.name));
+      address.value = event.target.value;
+    });
 
     // 회사 주소가 변경될 경우
     console.log('user', user === newState); // 기대값이 false
