@@ -25,6 +25,7 @@ class ClickMe extends Component {
   // 2-2(2는 업데이트)
   shouldComponentUpdate(nextProps, nextState) {
     console.log('2-2 shouldComponentUpdate 호출됨.');
+    return true;
   }
 
   // 1-3(1은 생성) / 2-3(2는 업데이트)
@@ -48,6 +49,7 @@ class ClickMe extends Component {
   // 2-4(2는 업데이트)
   getSnapshotBeforeUpdate(prevProps, prevState) {
     console.log('2-4 getSnapshotBeforeUpdate 호출됨.');
+    return 'hello';
   }
 
   // 2-5(2는 업데이트)
@@ -71,7 +73,6 @@ class Parent extends Component {
       <div>
         <h1>03 클래스 컴포넌트 - 컴포넌트의 라이플 사이클</h1>
         <ClickMe level={2} />
-        <ClickMe />
       </div>
     );
   }
