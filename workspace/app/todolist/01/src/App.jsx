@@ -1,3 +1,4 @@
+import { produce } from 'immer';
 import { useState } from 'react';
 import Header from '@components/Header';
 import Todo from '@pages/Todo';
@@ -11,10 +12,32 @@ function App() {
     { _id: 3, title: '라면', done: true },
   ]);
 
+  // 할일 추가
   const addItem = (item) => {
-    // ✨ 속성을 바꿔봐야 리액트는 인식을 못하기 때문에, 새로운 객체로 만들고 배열로 만들어줘야 갱신이 된다.
+    // 데이터 갱신(상태 변경)
     const newItemList = [...itemList, item]; // 객체일 경우 새로운 객체로 만들어야 화면 갱신이 됨
     setItemList(newItemList); // setter를 이용해야 회면 갱신이 됨
+  };
+
+  // 할 일 완료 / 미완료 처리
+  const toggleDone = (_id) => {
+    // 데이터 갱신(상태 변경)
+    const newItemList = produce(itemList, (draft) => {
+      const item = draft.find((item) => item._id === _id);
+      item.done = !item.done;
+    });
+
+    setItemList(newItemList);
+
+    console.log('원래 done 값', itemList);
+    console.log('new done 값', newItemList);
+  };
+
+  // 할 일 삭제
+  const deleteItem = (_id) => {
+    // 데이터 갱신(상태 변경)
+    const newItemList = itemList.filter((item) => item._id !== _id);
+    setItemList(newItemList);
   };
 
   return (
@@ -23,6 +46,8 @@ function App() {
       <Todo
         itemList={itemList}
         addItem={addItem}
+        toggleDone={toggleDone}
+        deleteItem={deleteItem}
       />
       <Footer />
     </div>

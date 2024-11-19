@@ -97,7 +97,10 @@ function App() {
         ))}
       </ul>
       <p>
-        <EditAddress addressBook={user.extra.addressBook} handleAddressChange={handleAddressChange} />
+        <EditAddress
+          addressBook={user.extra.addressBook}
+          handleAddressChange={handleAddressChange}
+        />
       </p>
     </>
   );
