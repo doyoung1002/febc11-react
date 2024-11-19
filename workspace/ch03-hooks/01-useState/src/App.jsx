@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 function App() {
   const [text, setText] = useState('');
+  // 추가
 
   return (
     <>
