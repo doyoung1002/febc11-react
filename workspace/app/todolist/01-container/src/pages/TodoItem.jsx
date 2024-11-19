@@ -15,7 +15,7 @@ function TodoItem({ item, toggleDone, deleteItem }) {
   );
 }
 
-TodoItem.protoType = {
+TodoItem.propTypes = {
   // item: PropTypes.object.isRequired,
   item: PropTypes.shape({
     _id: PropTypes.number.isRequired,
