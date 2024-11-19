@@ -18,14 +18,20 @@ class ClickMe extends Component {
   // 1-2(1은 생성) / 2-1(2는 업데이트)
   static getDerivedStateFromProps(props, state) {
     console.log('1-2/2-1 getDerivedStateFromProps 호출됨.');
-
-    return null;
+    console.log(' props', props);
+    console.log(' state', state);
+    if (state.count > props.level * 5) {
+      return { count: 0 }; // 새로운 값으로 state 업데이트
+    }
+    return null; // state를 업데이트 하지 않음
   }
 
   // 2-2(2는 업데이트)
   shouldComponentUpdate(nextProps, nextState) {
     console.log('2-2 shouldComponentUpdate 호출됨.');
-    return true;
+    console.log('현재값', this.props, this.state);
+    console.log('현재값', nextProps, nextState);
+    return true; // 여기서 값 판단하여 true면 render, false면 리턴 x(화면 갱신 x)
   }
 
   // 1-3(1은 생성) / 2-3(2는 업데이트)
