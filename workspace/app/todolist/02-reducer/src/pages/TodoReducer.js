@@ -4,7 +4,9 @@ import { produce } from 'immer';
 function TodoReducer(state, action) {
   //([{}, {}. {}], {type: 'ADD', value: {_id:1, title: 두부, done: true}})
   const targetIndex = state.findIndex((item) => item._id === action.value._id);
+
   let newState = [...state];
+
   switch (action.type) {
     case 'ADD':
       newState = produce(state, (draft) => {
@@ -12,7 +14,7 @@ function TodoReducer(state, action) {
       });
       break;
     case 'TOGGLE':
-      produce(state, (draft) => {
+      newState = produce(state, (draft) => {
         draft[targetIndex].done = !draft[targetIndex].done;
       });
 
