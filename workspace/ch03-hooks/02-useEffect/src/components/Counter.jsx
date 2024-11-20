@@ -1,29 +1,36 @@
 import { useState } from 'react';
 import Button from './Button';
+import PropTypes from 'prop-types';
 
-function Counter() {
-  let [count, setCount] = useState(0);
-  let [step, setStep] = useState(1);
+Counter.propTypes = {
+  children: PropTypes.string,
+};
+
+function Counter({ children = '0' }) {
+  const initCount = Number(children);
+  const [count, setCount] = useState(initCount);
+  const [step, setStep] = useState(1);
 
   const handleDown = () => {
-    setCount(count - 1);
+    setCount(count - step);
   };
   const handleUp = () => {
-    setCount(count + 1);
+    setCount(count + step);
   };
   const handleReset = (event) => {
-    setCount(0);
+    setCount(initCount);
   };
 
   return (
     <div id='counter'>
       <label htmlFor='step'>증감치</label>
+      {/* 제어 컴포넌트 value, onClick 사용 */}
       <input
         id='step'
         type='number'
         style={{ width: '40px' }}
         value={step}
-        onChange={(e) => setStep(e.target.value)}
+        onChange={(e) => setStep(Number(e.target.value))}
       />
       <Button
         color='red'
@@ -31,7 +38,7 @@ function Counter() {
       >
         -
       </Button>
-      <Button onClick={handleReset}>0</Button>
+      <Button onClick={handleReset}>{initCount}</Button>
       <Button
         color='blue'
         onClick={handleUp}
