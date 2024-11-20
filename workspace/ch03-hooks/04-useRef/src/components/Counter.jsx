@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useReducer, useRef } from 'react';
 import Button from './Button';
 import PropTypes from 'prop-types';
 
@@ -10,39 +10,33 @@ function Counter({ children = '0' }) {
   const initCount = Number(children);
 
   const [count, countDispatch] = useReducer(counterReducer, initCount);
-  const [step, setStep] = useState(1);
+  const step = useRef(1); // { current: 1 } 반환
+  const stepElem = useRef(null);
 
   const handleDown = () => {
-    countDispatch({ type: 'DOWN', value: step });
+    countDispatch({ type: 'DOWN', value: step.current });
   };
   const handleUp = () => {
-    countDispatch({ type: 'UP', value: step });
+    countDispatch({ type: 'UP', value: step.current });
   };
   const handleReset = (event) => {
     // setCount(initCount)
     countDispatch({ type: 'RESET', value: initCount });
+    console.log(stepElem);
+    stepElem.current.focus();
   };
-
-  // useEffect(() => {
-  //   console.log('setup 함수 호출');
-  //   const timer = setInterval(() => {
-  //     console.log(new Date());
-  //   }, 1000);
-  //   return () => {
-  //     clearInterval(timer);
-  //   };
-  // }, []);
 
   return (
     <div id='counter'>
       <label htmlFor='step'>증감치</label>
-      {/* 제어 컴포넌트 value, onChange 사용 */}
+      {/* 비제어 컴포넌트 value, onChange 사용 */}
       <input
         id='step'
         type='number'
         style={{ width: '40px' }}
-        value={step}
-        onChange={(e) => setStep(Number(e.target.value))}
+        defaultValue={step.current}
+        ref={stepElem}
+        onChange={(e) => (step.current = Number(e.target.value))}
       />
       <Button
         color='red'
