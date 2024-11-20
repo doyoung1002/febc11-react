@@ -1,6 +1,6 @@
 import Todo from '@pages/Todo';
 import TodoReducer from '@pages/TodoReducer';
-import { useReducer, useState } from 'react';
+import { useReducer, useRef, useState } from 'react';
 
 function TodoContainer() {
   // 샘플 목록
@@ -11,12 +11,14 @@ function TodoContainer() {
   ];
 
   const [itemList, itemListDispatch] = useReducer(TodoReducer, sampleItemList);
-  const [nextId, setNextId] = useState(sampleItemList.length_1);
+  // const [nextId, setNextId] = useState(sampleItemList.length+1);
+  const nextId = useRef(sampleItemList.length + 1);
 
   // 할일 추가
   const addItem = (title) => {
-    itemListDispatch({ type: 'ADD', value: { _id: nextId, title, done: false } });
-    setNextId(nextId + 1);
+    itemListDispatch({ type: 'ADD', value: { _id: nextId.current, title, done: false } });
+    // setNextId(nextId + 1);
+    nextId.current += 1;
   };
 
   // 할 일 완료 / 미완료 처리
