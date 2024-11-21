@@ -1,6 +1,7 @@
-import { useReducer, useRef } from 'react';
+import { useRef } from 'react';
 import Button from './Button';
 import PropTypes from 'prop-types';
+import useCounter from '@hooks/useCounter';
 
 Counter.propTypes = {
   children: PropTypes.string,
@@ -8,10 +9,8 @@ Counter.propTypes = {
 
 function Counter({ children = '0' }) {
   const initCount = Number(children);
-
-  const [count, countDispatch] = useReducer(counterReducer, initCount);
   const step = useRef(1); // { current: 1 } 반환
-  const stepElem = useRef(null);
+  const { count, up, down, reset } = useCounter(initCount);
 
   return (
     <div id='counter'>
@@ -22,52 +21,24 @@ function Counter({ children = '0' }) {
         type='number'
         style={{ width: '40px' }}
         defaultValue={step.current}
-        ref={stepElem}
         onChange={(e) => (step.current = Number(e.target.value))}
       />
       <Button
         color='red'
-        onClick={handleDown}
+        onClick={() => down(step.current)}
       >
         -
       </Button>
-      <Button onClick={handleReset}>{initCount}</Button>
+      <Button onClick={() => reset(initCount)}>{initCount}</Button>
       <Button
         color='blue'
-        onClick={handleUp}
+        onClick={() => up(step.current)}
       >
         +
       </Button>
       <span>{count}</span>
     </div>
   );
-}
-
-// 현재 상태와 action 객체를 받아서 새로운 상태를 반환하는 순수 함수
-// 객체라면 복사해서 해야한다.
-// 로직을 컴포넌트 내부에서 직접 구현하지 않고, 외부에서 구현
-// state: 이전 상태(useReducer가 내부적으로 관리, 이전의 리턴값이 다음에 state로 전달)
-// action: 동작을 정의한 객체(자유롭게 작성, 일반적으로 type 속성에 동작을, value 속성에 값을 지정)
-// 리턴값: 새로운 상태
-function counterReducer(state, action) {
-  // ex -> (count, {type: 'DOWN', value: 3})
-  let newState;
-
-  switch (action.type) {
-    case 'DOWN':
-      newState = state - action.value;
-      break;
-    case 'UP':
-      newState = state + action.value;
-      break;
-    case 'RESET':
-      newState = action.value;
-      break;
-    default:
-      newState = state;
-  }
-
-  return newState;
 }
 
 export default Counter;
