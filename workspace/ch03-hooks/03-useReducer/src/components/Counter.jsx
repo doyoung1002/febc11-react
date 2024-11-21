@@ -23,15 +23,15 @@ function Counter({ children = '0' }) {
     countDispatch({ type: 'RESET', value: initCount });
   };
 
-  // useEffect(() => {
-  //   console.log('setup 함수 호출');
-  //   const timer = setInterval(() => {
-  //     console.log(new Date());
-  //   }, 1000);
-  //   return () => {
-  //     clearInterval(timer);
-  //   };
-  // }, []);
+  useEffect(() => {
+    console.log('setup 함수 호출');
+    const timer = setInterval(() => {
+      console.log(new Date());
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   return (
     <div id='counter'>
