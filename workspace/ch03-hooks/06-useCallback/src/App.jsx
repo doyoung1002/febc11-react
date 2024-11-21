@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Product from './Product';
 import Shipping from './Shipping';
 
@@ -27,9 +27,13 @@ function App() {
     setQuantity(newQuantity);
   };
 
-  const handlePayment = () => {
+  // const handlePayment = () => {
+  //   alert(`상품을 결제하시겠습니까?`);
+  // };
+
+  const handlePayment = useCallback(() => {
     alert(`상품을 결제하시겠습니까?`);
-  };
+  }, []);
 
   return (
     <>

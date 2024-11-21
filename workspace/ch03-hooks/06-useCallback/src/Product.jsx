@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { memo } from 'react';
 
 const Product = memo(function Product({ name, price, mainImage, content }) {
+  // function Product({ name, price, mainImage, content }) {
+  console.log('Product 렌더링');
   return (
     <>
       <h2>상품 설명</h2>
@@ -17,6 +19,7 @@ const Product = memo(function Product({ name, price, mainImage, content }) {
       </div>
     </>
   );
+  // }
 });
 
 Product.propTypes = {
