@@ -1,14 +1,7 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { memo } from 'react';
 
-Product.propTypes = {
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  mainImage: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-};
-
-function Product({ name, price, mainImage, content }) {
+const Product = memo(function Product({ name, price, mainImage, content }) {
   return (
     <>
       <h2>상품 설명</h2>
@@ -24,6 +17,13 @@ function Product({ name, price, mainImage, content }) {
       </div>
     </>
   );
-}
+});
+
+Product.propTypes = {
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  mainImage: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+};
 
 export default Product;
