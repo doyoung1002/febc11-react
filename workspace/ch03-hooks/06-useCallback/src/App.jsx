@@ -35,9 +35,14 @@ function App() {
   //   alert(`상품을 결제하시겠습니까?`);
   // };
 
+  // const handlePayment = useCallback(() => {
+  //   alert(`상품을 결제하시겠습니까?`);
+  // }, []);
+
+  // 생성될 당시의 shippingFees를 참조하고 있음
   const handlePayment = useCallback(() => {
-    alert(`상품을 결제하시겠습니까?`);
-  }, []);
+    alert(`배송비 ${shippingFees.toLocaleString()}원이 추가됩니다. 상품을 결제하시겠습니까?`);
+  }, [shippingFees]);
 
   return (
     <>
