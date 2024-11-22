@@ -5,11 +5,11 @@ function Header() {
     <>
       <header>
         <h1>리액트 라우터</h1>
-        <Link to='home.html'>home</Link>
+        <Link to='/'>home</Link>
         <br />
-        <Link to='page1.html'>page1</Link>
+        <Link to='/page1'>page1</Link>
         <br />
-        <Link to='page2.html'>page2</Link>
+        <Link to='/page2'>page2</Link>
       </header>
     </>
   );
