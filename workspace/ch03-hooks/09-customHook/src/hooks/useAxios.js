@@ -1,7 +1,10 @@
-const API_SERVER = 'https://todo-api.fesp.shop/api';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function useFetch(fetchParams) {
+axios.defaults.baseURL = 'https://todo-api.fesp.shop/api';
+axios.defaults.timeout = 1500;
+
+function useAxios(fetchParams) {
   // 서버로부터 받은 응답 data
   const [data, setData] = useState(null);
   // 에러 메세지
@@ -17,16 +20,12 @@ function useFetch(fetchParams) {
   const request = async (params) => {
     try {
       setIsLoading(true);
-      const res = await fetch(API_SERVER + params.url);
-      const jsonData = await res.json();
+      // axios는 기본적으로 default가 get 요청이다.
+      const res = await axios.get(params.url);
       console.log(res);
-      console.log(jsonData);
-      if (jsonData.ok) {
-        setData(jsonData);
-        setError(null);
-      } else {
-        throw new Error(jsonData.error.message);
-      }
+
+      setData(res.data);
+      setError(null);
     } catch (err) {
       // 에러 처리
       console.error(err);
@@ -40,4 +39,4 @@ function useFetch(fetchParams) {
   return { data, error, isLoading };
 }
 
-export default useFetch;
+export default useAxios;
