@@ -1,39 +1,16 @@
+import Link from './Link';
 import React from 'react';
 
 function Header() {
-  const handleClick = (e) => {
-    // 브라우저의 기본 동작을 제거(a 태그 동작)
-    e.preventDefault();
-    // (state, title, url)
-    // <a href='home.html'={handleClick}> home </a>
-    // => pathname: /home.html
-    window.history.pushState(null, '', e.target.pathname);
-  };
-
   return (
     <>
       <header>
         <h1>리액트 라우터</h1>
-        <a
-          href='home.html'
-          onClick={handleClick}
-        >
-          home
-        </a>
+        <Link to='home.html'>home</Link>
         <br />
-        <a
-          href='page1.html'
-          onClick={handleClick}
-        >
-          page1
-        </a>
+        <Link to='page1.html'>page1</Link>
         <br />
-        <a
-          href='page2.html'
-          onClick={handleClick}
-        >
-          page2
-        </a>
+        <Link to='page2.html'>page2</Link>
       </header>
     </>
   );
