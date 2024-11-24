@@ -9,7 +9,7 @@ function TodoList() {
           <form className='search'>
             <input
               type='text'
-              autofocus
+              autoFocus
             />
             <button type='submit'>검색</button>
           </form>
