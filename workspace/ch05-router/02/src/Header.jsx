@@ -14,13 +14,13 @@ function Header() {
         </NavLink>
         <NavLink
           className={({ isActive }) => (isActive ? 'menu-dark' : 'menu')}
-          to='/about'
+          to='/page1'
         >
           About
         </NavLink>
         <NavLink
           className={({ isActive }) => (isActive ? 'menu-dark' : 'menu')}
-          to='/list'
+          to='/page2'
         >
           TodoList
         </NavLink>
