@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function TodoEdit() {
   return (
@@ -30,8 +31,8 @@ function TodoEdit() {
             checked
           />
           <br />
-          <a href='./tododetail.html'>수정</a>
-          <a href='./tododetail.html'>취소</a>
+          <Link to='/list/1'>수정</Link>
+          <Link to='/list/1'>취소</Link>
         </form>
       </div>
     </div>
