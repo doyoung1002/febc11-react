@@ -1,17 +1,7 @@
 import useAxios from '@hooks/useAxios';
+import useAxiosInstance from '@hooks/useAxiosInstance';
 import { useEffect, useState } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
-
-// const dummyData = {
-//   item: {
-//     _id: 5,
-//     title: 'Javascript 공부',
-//     content: '열심히 하자',
-//     done: false,
-//     createdAt: '2024.11.21 16:49:00',
-//     updatedAt: '2024.11.21 16:49:00',
-//   },
-// };
 
 function TodoDetail() {
   // URL의 파라미터 추출 - useParams
@@ -20,15 +10,27 @@ function TodoDetail() {
   const { _id } = useParams();
   console.log(_id);
 
-  // const [data, setData] = useState();
-
+  const [data, setData] = useState();
+  // 더미 데이터로 만든 것
   // useEffect(() => {
   //   // TODO: API 서버 통신
 
   //   setData(dummyData);
   // }, []);
 
-  const { data } = useAxios({ url: `/todolist/${_id}` });
+  // const { data } = useAxios({ url: `/todolist/${_id}` });
+
+  // 실제 서버에서 호출
+  const axios = useAxiosInstance();
+  // API 서버에서 상세 정보를 조회
+  const fetchDetail = async () => {
+    const res = await axios.get(`/todolist/${_id}`);
+    setData(res.data);
+  };
+
+  useEffect(() => {
+    fetchDetail();
+  }, []);
 
   return (
     <div id='main'>
@@ -45,7 +47,7 @@ function TodoDetail() {
             {/* <Link to={'/list/${_id}/edit'}>수정</Link>  절대경로*/}
             <Link to='/list'>목록</Link>
           </div>
-          <Outlet context={{ item: data.item }} />
+          <Outlet context={{ item: data.item, refetch: fetchDetail }} />
         </>
       )}
     </div>
