@@ -1,16 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 
 function TodoEdit() {
+  // Outlet 컴포넌트의 context 속성에 전달되는 값 추출
+  const { item } = useOutletContext();
+
+  // 수정 작업
+  const onSubmit = () => {};
+
   return (
     <>
       <h2>할일 수정</h2>
       <div className='todo'>
-        <form>
+        <form onSubmit={onSubmit}>
           <label htmlFor='title'>제목 :</label>
           <input
             type='text'
             id='title'
-            value='잠자기'
+            defaultValue={item.title}
             autoFocus
           />
           <br />
@@ -19,18 +25,17 @@ function TodoEdit() {
             id='content'
             cols='23'
             rows='5'
-          >
-            주말에 수업 끝나면 잠이나 실컷 자야지
-          </textarea>
+            defaultValue={item.content}
+          />
           <br />
           <label htmlFor='done'>완료 :</label>
           <input
             type='checkbox'
             id='done'
-            checked
+            defaultChecked={item.done}
           />
           <br />
-          <Link to='/list/1'>수정</Link>
+          <button type='submit'>수정</button>
           <Link to='/list/1'>취소</Link>
         </form>
       </div>
