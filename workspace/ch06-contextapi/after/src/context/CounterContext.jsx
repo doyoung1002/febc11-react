@@ -16,8 +16,8 @@ export function CounterProvider({ children }) {
   const countDown = function (step) {
     setCount(count - step);
   };
-  const reset = function (step) {
-    setCount(count + step);
+  const reset = function () {
+    setCount(0);
   };
   const countUp = function (step) {
     setCount(count + step);
@@ -28,6 +28,7 @@ export function CounterProvider({ children }) {
     state: { count },
     // actions에는 state를 제어하는 함수를 넘겨주면 된다.
     actions: { countDown, reset, countUp },
+    hello: 'counter',
   };
   // 5. Context 객체의 Provider로 자식 컴포넌트를 감싸서 반환
   // value 속성에 전달할 Context 값 지정
