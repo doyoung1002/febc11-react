@@ -105,18 +105,21 @@ function TodoList() {
         <form
           className='search'
           onSubmit={handleSearch}
+          // 제어 컴포넌트 - state 로 관리, 상태 변경될 때마다 리렌더링
+          // 비제어 컴포넌트 - ref 로 관리, 원할 때만 리렌더링
         >
           <input
             type='text'
             autoFocus
             defaultValue={params.keyword}
+            // 초기값은 params.keyword 로 지정, 최초에는 아무 값도 있지 않은 상태
             ref={searchRef}
           />
           <button type='submit'>검색</button>
         </form>
         <ul className='todolist'>{itemList}</ul>
       </div>
-
+      {/* pagination 컴포넌트에 데이터가 있다면 pagination 의 totalPages 와 page 를 props 로 전달 */}
       {data && (
         <Pagination
           totalPages={data?.pagination.totalPages}
