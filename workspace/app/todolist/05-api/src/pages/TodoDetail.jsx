@@ -28,6 +28,7 @@ function TodoDetail() {
     setData(res.data);
   };
 
+  // 화면 맨 처음에만 구성하기 위해 한번만 호출
   useEffect(() => {
     fetchDetail();
   }, []);
