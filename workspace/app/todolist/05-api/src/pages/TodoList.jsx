@@ -4,6 +4,7 @@ import TodoListItem from '@pages/TodoListItem';
 import { useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useSearchParams } from 'react-router-dom';
 import '../Pagination.css';
+import Pagination from '@components/pagination';
 
 // API 서버 완성되기전에 사용할 더미데이터를 이렇게 만들어서 프로젝트 진행
 // const dummyData = {
@@ -94,25 +95,6 @@ function TodoList() {
     setSearchParams(new URLSearchParams(`keyword=${searchRef.current.value}`));
   };
 
-  const current = data?.pagination.page;
-
-  // 페이지네이션
-  let pageList = [];
-  for (let page = 1; page <= data?.pagination.totalPages; page++) {
-    searchParams.set('page', page);
-    // 예시
-    // keyword=황승&page=1
-    // keyword=황승&page=2
-    // keyword=황승&page=3
-    let search = searchParams.toString();
-
-    pageList.push(
-      <li className={current === page ? 'active' : ''}>
-        <Link to={`/list?${search}`}>{page}</Link>
-      </li>
-    );
-  }
-
   return (
     <div id='main'>
       <h2>할일 목록</h2>
@@ -135,11 +117,12 @@ function TodoList() {
         <ul className='todolist'>{itemList}</ul>
       </div>
 
-      <div className='pagination'>
-        <ul>{pageList}</ul>
-      </div>
-
-      <Outlet />
+      {data && (
+        <Pagination
+          totalPages={data?.pagination.totalPages}
+          current={data?.pagination.page}
+        />
+      )}
     </div>
   );
 }
