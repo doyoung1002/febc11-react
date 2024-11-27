@@ -2,7 +2,8 @@ import useAxiosInstance from '@hooks/useAxiosInstance';
 import useFetch from '@hooks/useFetch';
 import TodoListItem from '@pages/TodoListItem';
 import { useEffect, useRef, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, Outlet, useSearchParams } from 'react-router-dom';
+import '../Pagination.css';
 
 // API 서버 완성되기전에 사용할 더미데이터를 이렇게 만들어서 프로젝트 진행
 // const dummyData = {
@@ -112,6 +113,22 @@ function TodoList() {
         </form>
         <ul className='todolist'>{itemList}</ul>
       </div>
+
+      <div className='pagination'>
+        <ul>
+          <li className='active'>
+            <Link to={'/list?page=1'}>1</Link>
+          </li>
+          <li>
+            <Link to={'/list?page=2'}>2</Link>
+          </li>
+          <li>
+            <Link to={'/list?page=3'}>3</Link>
+          </li>
+        </ul>
+      </div>
+
+      <Outlet />
     </div>
   );
 }
