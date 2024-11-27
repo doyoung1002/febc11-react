@@ -1,8 +1,8 @@
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import useFetch from '@hooks/useFetch';
 import TodoListItem from '@pages/TodoListItem';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 
 // API 서버 완성되기전에 사용할 더미데이터를 이렇게 만들어서 프로젝트 진행
 // const dummyData = {
@@ -20,8 +20,21 @@ import { Link } from 'react-router-dom';
 // };
 
 function TodoList() {
+  const [data, setData] = useState();
+
   // axios 인스턴스
   const axios = useAxiosInstance();
+
+  const searchRef = useRef();
+
+  // 쿼리 스트링 정보를 읽거나 설정
+  // /list?keyword=환승&page=3 => new URLSearchParams('keyword=환승&page=3')
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const params = {
+    keyword: searchParams.get('keyword'),
+    // page: searchParams.get('page'),
+  };
 
   // const [data, setData] = useState();
   // useEffect(() => {
@@ -29,7 +42,6 @@ function TodoList() {
   // }, []); // 마운트된 후에 한번만 호출
 
   // API 서버에서 목록 조회
-  const [data, setData] = useState();
   // useEffect(() => {
   //   setData(dummyData);
   // }, []);
@@ -37,14 +49,16 @@ function TodoList() {
   // const { data } = useFetch({ url: '/todolist' });
 
   // 컴포넌트 마운트 직후와 삭제 후에 목록 조회를 해야 하므로 함수로 만듦
+  // 🚨 이부분 params 넘기는 이해 안됨 -> 함수의 독립성
+  // const fetchList = async (params = {}) => {
   const fetchList = async () => {
-    const res = await axios.get('/todolist');
+    const res = await axios.get('/todolist', { params });
     setData(res.data);
   };
 
   useEffect(() => {
     fetchList();
-  }, []);
+  }, [searchParams]); // 최초 마운트 후에 호출
 
   // 삭제 작업
   const handleDelete = async (_id) => {
@@ -71,6 +85,12 @@ function TodoList() {
     />
   ));
 
+  // 검색
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchParams(new URLSearchParams(`keyword=${searchRef.current.value}`));
+  };
+
   return (
     <div id='main'>
       <h2>할일 목록</h2>
@@ -78,10 +98,15 @@ function TodoList() {
         <Link to='/list/add'>추가</Link>
         {/* <a href='./add'>추가</a> 상대 경로 - 만약 경로가 복잡하게 된다면 상대경로가 나음 */}
         <br />
-        <form className='search'>
+        <form
+          className='search'
+          onSubmit={handleSearch}
+        >
           <input
             type='text'
             autoFocus
+            defaultValue={params.keyword}
+            ref={searchRef}
           />
           <button type='submit'>검색</button>
         </form>
