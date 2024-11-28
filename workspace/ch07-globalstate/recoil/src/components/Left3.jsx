@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { counterState } from '@recoil/atoms';
+import { counterStateKor } from '@recoil/selectors';
 
 function Left3() {
   useEffect(() => {
     console.log('      # Left3 렌더링.');
   });
 
-  const count = useRecoilValue(counterState); // atom 열기
+  // const count = useRecoilValue(counterState); // atom에서 값 읽기
+  const count = useRecoilValue(counterStateKor); // selector에서 읽기
 
   return (
     <div>
