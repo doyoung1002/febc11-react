@@ -6,7 +6,12 @@ function Right3() {
     console.log('      # Right3 렌더링.');
   });
 
-  const { countUp } = useCounterState();
+  // count를 사용하지 않더라도 자동으로 구독이 되기 때문에 count 변경 시 리렌더링이 됨
+  // const { countUp } = useCounterState();
+
+  // 필요한 state만 반환 받을 수 있다.
+  // 렌더링 최적화를 위해 수동으로 필요한 부분만 지정
+  const countUp = useCounterState((state) => state.countUp);
 
   return (
     <div>
