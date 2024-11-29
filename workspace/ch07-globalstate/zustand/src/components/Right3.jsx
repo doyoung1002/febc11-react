@@ -13,6 +13,8 @@ function Right3() {
   // 렌더링 최적화를 위해 수동으로 필요한 부분만 지정
   const countUp = useCounterState((state) => state.countUp);
 
+  // function hello(fn)
+
   return (
     <div>
       <h3>Right3</h3>
