@@ -1,26 +1,26 @@
 import Button from '@components/Button';
-import './Login.css';
+import styles from './Login.module.css';
 
 function Login() {
   return (
-    <div className='container'>
+    <div className={styles.container}>
       <h2>Login</h2>
-      <form className='form'>
-        <div className='input-group'>
+      <form className={styles.form}>
+        <div className={styles['input-group']}>
           <label htmlFor='email'>Email:</label>
           <input
             type='email'
             id='email'
-            className='input color-blue-red'
+            className={`${styles.input} ${styles['color-blue-red']}`}
             required
           />
         </div>
-        <div className='input-group'>
+        <div className={styles['input-group']}>
           <label htmlFor='password'>Password:</label>
           <input
             type='password'
             id='password'
-            className='input color-red-blue'
+            className={`${styles.input} ${styles['color-red-blue']}`}
             required
           />
         </div>

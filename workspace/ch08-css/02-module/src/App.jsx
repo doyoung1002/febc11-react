@@ -1,13 +1,15 @@
 import Button from '@components/Button';
-import './App.css';
+import styles from './App.module.css';
 import Login from './Login';
 
 function App() {
+  console.log(styles);
+
   return (
     <>
-      <h1>CSS import 사용</h1>
+      <h1>02 CSS import 사용</h1>
 
-      <div className='container'>
+      <div className={styles.container}>
         <Button>그냥 버튼</Button>
         <Button
           bg='blue'

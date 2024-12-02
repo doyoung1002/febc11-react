@@ -5,7 +5,7 @@ import Login from './Login';
 function App() {
   return (
     <>
-      <h1>CSS import 사용</h1>
+      <h1>01 CSS import 사용</h1>
 
       <div className='container'>
         <Button>그냥 버튼</Button>
