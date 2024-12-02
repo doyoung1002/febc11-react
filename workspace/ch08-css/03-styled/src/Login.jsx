@@ -1,4 +1,4 @@
-import { Button } from '@components/StyledButton';
+import { Button, Submit } from '@components/StyledButton';
 import './Login.css';
 
 function Login() {
@@ -38,12 +38,7 @@ function Login() {
         >
           카카오 로그인
         </Button>
-        <Button
-          type='submit'
-          size='12px'
-        >
-          로그인
-        </Button>
+        <Submit size='12px'>로그인</Submit>
       </form>
     </div>
   );

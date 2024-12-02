@@ -15,7 +15,16 @@ const BasicButtonStyle = styled.button`
   border-radius: 6px; /* Border radius */
 `;
 
+// const 변수 : styled(상속받을 컴포넌트)
+const BlueButton = styled(BasicButtonStyle)`
+  background-color: blue;
+`;
+
 Button.propTypes = {
+  children: PropTypes.string.isRequired,
+};
+
+Submit.propTypes = {
   children: PropTypes.string.isRequired,
 };
 
@@ -27,5 +36,16 @@ export function Button({ children, ...rest }) {
     >
       {children}
     </BasicButtonStyle>
+  );
+}
+
+export function Submit({ children, ...rest }) {
+  return (
+    <BlueButton
+      type='submit'
+      {...rest}
+    >
+      {children}
+    </BlueButton>
   );
 }
