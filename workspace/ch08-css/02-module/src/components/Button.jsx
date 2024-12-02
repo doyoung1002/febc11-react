@@ -24,3 +24,11 @@ export default function Button({ children, type = 'button', bg, color, onClick: 
     </button>
   );
 }
+
+// function classNames(...names) {
+//   let result = '';
+//   for (cont name of names) {
+//     result += name + ' ';
+//   }
+//   return result;
+// }
