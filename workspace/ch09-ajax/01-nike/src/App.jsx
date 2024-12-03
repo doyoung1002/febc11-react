@@ -35,7 +35,7 @@ function App() {
 
   useEffect(() => {
     // 마운트 된 이후 호출 됨 3번
-    fetchData(1); // 3번(마운트 된 후)
+    fetchData(4); // 3번(마운트 된 후)
   }, []); // 마운트 된 이후에 최초 한번만 실행
 
   const basicShippingFees = 3000;
