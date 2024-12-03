@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Product from './Product';
 import Shipping from './Shipping';
 import { DotLoader } from 'react-spinners';
+import axios from 'axios';
 
 function App() {
   const [data, setData] = useState(); // 1(마운트)
@@ -11,24 +12,16 @@ function App() {
   const fetchData = async (_id) => {
     setIsLoading(true);
     try {
-      const res = await fetch(`https://11.fesp.shop/123products/${_id}?delay=3000`, {
+      const res = await axios(`https://11.fesp.shop/products/${_id}?delay=3000`, {
         headers: {
           'client-id': '00-nike',
         },
       });
       console.log('res', res);
-      const jsonData = await res.json();
-      console.log('jsonData', jsonData);
-      if (res.ok) {
-        setData(jsonData.item); // 4번(마운트 후) - 화면 갱신
-        setError(null);
-      } else {
-        // 4xx, 5xx 응답 상태코드를 받을 경우
-        setError(jsonData);
-        setData(null);
-      }
+      setData(res.data.item); // 4번(마운트 후) - 화면 갱신
+      setError(null);
     } catch (err) {
-      // 네트워크 에러(fetch)
+      // 네트워크 에러, 4xx, 5xx 응답일 경우 catch 블럭이 실행이 됨
       console.error(err);
       setError({ message: '잠시 후 다시 요청하세요.' });
       setData(null);
@@ -39,7 +32,7 @@ function App() {
 
   useEffect(() => {
     // 마운트 된 setUp함수가 호출 되고 fetchData가 실행됨
-    fetchData(4); // 3번(마운트 된 후)
+    fetchData(5); // 3번(마운트 된 후)
   }, []); // 마운트 된 이후에 최초 한번만 실행
 
   const basicShippingFees = 3000;
@@ -62,10 +55,9 @@ function App() {
   // return <h1></h1> 2번(마운트)
   return (
     <>
-      <h1>01 NIKE 상품 상세 조회</h1>
+      <h1>02 NIKE 상품 상세 조회 - Axios</h1>
       {isLoading && <DotLoader />}
       {error && <p>{error.message}</p>}
-
       {data && ( // 첫 마운트일 때 데이터가 없기 때문에 undefined
         <div>
           <Product product={data} />
