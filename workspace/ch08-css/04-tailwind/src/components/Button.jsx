@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import './Button.css';
 
 Button.propTypes = {
   children: PropTypes.string.isRequired,
