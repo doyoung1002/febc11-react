@@ -43,6 +43,9 @@ function App() {
     queryFn: () => axios.get(`/products/7`), // 서버에 ajax 요청 코드(Promise 반환)
     // axios.get(`/products/7`) 의 return 값이 res로 전달됨
     select: (res) => res.data.item,
+    // refetchInterval: 1000 * 3, // 3초마다 fetch 실행
+    // staleTime: 1000 * 10, // 10초만 캐싱해
+
     // 더 복잡한 로직이 필요하다면 return을 해주면 된다. 아래와 같이
     // { const hello = 'world';
     // res.data.item.hello = hello;
@@ -58,7 +61,7 @@ function App() {
     // mutationFn 실행이 정상적으로 완료될 경우
     onSuccess: () => {
       toast.success('주문이 완료되었습니다.');
-      refetch(); // 상품 상테 조회를(useQuery) 다시 호출
+      refetch(); // 상품 상태 조회를(useQuery) 다시 호출
     },
     // mutationFn 실행 중 에러가 뜨면 아래 코드 실행
     onError: (err) => {
