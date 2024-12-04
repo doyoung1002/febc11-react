@@ -3,9 +3,9 @@ import Product from './Product';
 import Shipping from './Shipping';
 import { DotLoader } from 'react-spinners';
 import useAxiosInstance from '@hooks/useAxiosInstance';
-import { Bounce, ToastContainer } from 'react-toastify';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 function App() {
   const axios = useAxiosInstance();
@@ -36,7 +36,9 @@ function App() {
   //   fetchData(7); // 3번(마운트 된 후)
   // }, []); // 마운트 된 이후에 최초 한번만 실행
 
-  const { data, isLoading, error } = useQuery({
+  // 상품 상세 조회
+  // refetch 이는 다시 서버에 요청하는 작업
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['products', 7], // 캐시에 사용할 키 값을 지정(7번 상품)
     queryFn: () => axios.get(`/products/7`), // 서버에 ajax 요청 코드(Promise 반환)
     // axios.get(`/products/7`) 의 return 값이 res로 전달됨
@@ -45,6 +47,23 @@ function App() {
     // { const hello = 'world';
     // res.data.item.hello = hello;
     // return res.data.item},
+  });
+
+  // 상품 구매 - 이벤트 핸들러 안에서 서버와 통신하는 삭제, 수정 등은 useMutation을 사용
+  const orderProduct = useMutation({
+    // useMutation() 반환한 객체의 mutate() 호출하면 mutationFn 호출됨
+    // 아래 코드는 호출되지 않는다. 이는 mutate()에서 사용이 된다.
+    mutationFn: (products) => axios.post(`/orders`, products),
+
+    // mutationFn 실행이 정상적으로 완료될 경우
+    onSuccess: () => {
+      toast.success('주문이 완료되었습니다.');
+      refetch(); // 상품 상테 조회를(useQuery) 다시 호출
+    },
+    // mutationFn 실행 중 에러가 뜨면 아래 코드 실행
+    onError: (err) => {
+      console.error(err);
+    },
   });
 
   console.log('isLoading', isLoading);
@@ -64,9 +83,17 @@ function App() {
   };
 
   // 생성될 당시의 shippingFees를 참조하고 있음
-  const handlePayment = useCallback(() => {
-    alert(`배송비 ${shippingFees.toLocaleString()}원이 추가됩니다. 상품을 결제하시겠습니까?`);
-  }, [shippingFees]);
+  // 수량 6개가 되면 배송비 상태가 변경이 되면서 렌더링이 되는데 어차피 수량은 계속 변하기 때문이다.
+  // 숫자가 바뀌면 렌더링이 되어야 하기때문에 useCallback으로 캐시하는건 의미가 없다.
+  const handlePayment = () => {
+    const ok = confirm(`배송비 ${shippingFees}원이 추가됩니다. 상품을 결제하시겠습니까?`);
+    if (ok) {
+      // mutateFn() 호출
+      orderProduct.mutate({
+        products: [{ _id: 7, quantity }],
+      });
+    }
+  };
 
   // return <h1></h1> 2번(마운트)
   return (
@@ -81,6 +108,8 @@ function App() {
           <h2>수량 선택</h2>
           <div>
             가격: {data.price.toLocaleString()}원
+            <br />
+            남은 수량 : {data.quantity - data.buyQuantity}
             <br />
             수량:{' '}
             <input
