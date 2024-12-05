@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 // 게시글 목록 조회 API 호출
 function fetchPostList() {
-  return axios.get('https://11.fesp.shop/posts/?type=brunch', {
+  return axios.get('https://11.fesp.shop/posts/?type=brunch&delay=4000', {
     headers: {
       'client-id': '00-brunch',
     },
