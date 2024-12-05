@@ -35,7 +35,7 @@ function PostList() {
 
       <h3>Fetch-on-render 방식</h3>
       <FetchOnRender />
-
+      <p> ---------------------------------------------------</p>
       <h3>Fetch-then-render 방식</h3>
       <FetchThenRender />
     </>

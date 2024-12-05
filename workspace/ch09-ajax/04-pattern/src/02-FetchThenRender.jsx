@@ -55,7 +55,7 @@ function fetchReplies() {
 }
 
 // 댓글 목록 페이지
-export function Replies({ replies }) {
+function Replies({ replies }) {
   if (!replies) {
     return <>댓글 로딩중...</>;
   }
