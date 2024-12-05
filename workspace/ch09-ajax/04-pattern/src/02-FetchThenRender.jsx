@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+// 게시글과 댓글 목록 조회를 동시에
+function fetchData() {
+  return Promise.all([fetchPost(), fetchReplies()]).then(([post, replies]) => ({
+    post: post.data,
+    replies: replies.data,
+  }));
+}
+
+// 데이터 패칭 시작(렌더링 전, 부모 컴포넌트에서 import하는 순간에 실행이 됨)
+const promise = fetchData();
+
 // 게시글 조회 API 호출
 function fetchPost() {
   return axios.get('https://11.fesp.shop/posts/1?type=brunch&delay=3000', {
@@ -11,23 +22,25 @@ function fetchPost() {
 }
 
 // 게시글 상세 조회 페이지
-function FetchOnRender() {
-  const [data, setData] = useState();
+function FetchThenRender() {
+  const [post, setPost] = useState();
+  const [replies, setReplies] = useState();
 
   useEffect(() => {
-    fetchPost().then((res) => {
-      setData(res.data);
+    promise.then((res) => {
+      setPost(res.post);
+      setReplies(res.replies);
     });
   }, []);
 
-  if (!data) {
-    return <>게시물 로딩중...</>;
+  if (!post) {
+    return <div>게시물 로딩중...</div>;
   }
 
   return (
     <>
-      <h4>{data.item.title}</h4>
-      <Replies />
+      <h4>{post.item.title}</h4>
+      <Replies replies={replies} />
     </>
   );
 }
@@ -42,20 +55,12 @@ function fetchReplies() {
 }
 
 // 댓글 목록 페이지
-export function Replies() {
-  const [data, setData] = useState();
-
-  useEffect(() => {
-    fetchReplies().then((res) => {
-      setData(res.data);
-    });
-  }, []);
-
-  if (!data) {
+export function Replies({ replies }) {
+  if (!replies) {
     return <>댓글 로딩중...</>;
   }
 
-  const list = data.item.map((item) => <li key={item._id}>{item.content}</li>);
+  const list = replies.item.map((item) => <li key={item._id}>{item.content}</li>);
 
   return (
     <>
@@ -64,4 +69,4 @@ export function Replies() {
   );
 }
 
-export default FetchOnRender;
+export default FetchThenRender;
