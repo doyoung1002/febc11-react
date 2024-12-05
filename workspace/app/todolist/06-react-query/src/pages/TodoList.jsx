@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useSearchParams } from 'react-router-dom';
 import '../Pagination.css';
 import Pagination from '@components/pagination';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 function TodoList() {
   const searchRef = useRef();
@@ -47,25 +47,41 @@ function TodoList() {
   });
 
   // 삭제 작업
-  const handleDelete = async (_id) => {
-    try {
-      // TODO: API 서버에 삭제 요청
-      await axios.delete(`/todolist/${_id}`);
+  // const handleDelete = async (_id) => {
+  //   try {
+  //     // TODO: API 서버에 삭제 요청
+  //     await axios.delete(`/todolist/${_id}`);
+  //     alert('할 일이 삭제 되었습니다.');
+
+  //     // TODO: 목록을 다시 조회
+  //     refetch();
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert('할 일 삭제에 실패했습니다.');
+  //   }
+  // };
+
+  const deleteItem = useMutation({
+    mutationFn: (_id) => {
+      axios.delete(`/todolist/${_id}`);
+    },
+    onSuccess: () => {
       alert('할 일이 삭제 되었습니다.');
 
-      // TODO: 목록을 다시 조회
+      // 목록을 다시 조회
       refetch();
-    } catch (err) {
+    },
+    onError: (err) => {
       console.error(err);
       alert('할 일 삭제에 실패했습니다.');
-    }
-  };
+    },
+  });
 
   const itemList = data?.items.map((item) => (
     <TodoListItem
       key={item._id}
       item={item}
-      handleDelete={handleDelete}
+      handleDelete={() => deleteItem.mutate(item._id)}
     />
   ));
 

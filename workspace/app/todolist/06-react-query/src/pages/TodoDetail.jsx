@@ -1,5 +1,6 @@
 import useAxios from '@hooks/useAxios';
 import useAxiosInstance from '@hooks/useAxiosInstance';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
 
@@ -11,33 +12,19 @@ function TodoDetail() {
   console.log(_id);
 
   const navigate = useNavigate();
-
-  const [data, setData] = useState();
-  // 더미 데이터로 만든 것
-  // useEffect(() => {
-  //   // TODO: API 서버 통신
-
-  //   setData(dummyData);
-  // }, []);
-
-  // const { data } = useAxios({ url: `/todolist/${_id}` });
-
-  // 실제 서버에서 호출
   const axios = useAxiosInstance();
-  // API 서버에서 상세 정보를 조회
-  const fetchDetail = async () => {
-    const res = await axios.get(`/todolist/${_id}`);
-    setData(res.data);
-  };
 
-  // 화면 맨 처음에만 구성하기 위해 한번만 호출
-  useEffect(() => {
-    fetchDetail();
-  }, []);
+  const { data, refetch, isLoading } = useQuery({
+    queryKey: ['todolist', _id],
+    queryFn: () => axios.get(`/todolist/${_id}`),
+    select: (res) => res.data,
+    staleTime: 1000 * 60,
+  });
 
   return (
     <div id='main'>
       <h2>할일 상세 보기</h2>
+      {isLoading && <div>로딩중...</div>}
       {data && (
         <>
           <div className='todo'>
@@ -55,7 +42,7 @@ function TodoDetail() {
               목록
             </button>
           </div>
-          <Outlet context={{ item: data.item, refetch: fetchDetail }} />
+          <Outlet context={{ item: data.item, refetch }} />
         </>
       )}
     </div>
