@@ -219,6 +219,7 @@ git pull upstream main
 ```sh
 cd febc11-react/sample
 npx degit https://github.com/uzoolove/febc11-react/sample/05 05
+npx degit https://github.com/uzoolove/febc11-react/sample/01 01
 ```
 
 ### sample 폴더 복사
