@@ -1,30 +1,7 @@
 import ListItem from '@pages/board/ListItem';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import useAxiosInstance from '@hooks/useAxiosInstance';
 
 export default function List() {
-  const axios = useAxiosInstance();
-
-  const { data } = useQuery({
-    queryKey: ['posts', 'brunch'],
-    queryFn: () => axios.get('/posts', { params: { type: 'brunch' } }),
-    select: (res) => res.data,
-    staleTime: 1000 * 10,
-  });
-
-  console.log(data);
-  if (!data) {
-    return <div>로딩중...</div>;
-  }
-
-  const list = data.item.map((item) => (
-    <ListItem
-      key={item._id}
-      item={item}
-    />
-  ));
-
   return (
     <main className='min-w-80 p-10'>
       <div className='text-center py-4'>
@@ -72,7 +49,9 @@ export default function List() {
               <th className='p-2 whitespace-nowrap font-semibold hidden sm:table-cell'>작성일</th>
             </tr>
           </thead>
-          <tbody>{list}</tbody>
+          <tbody>
+            <ListItem />
+          </tbody>
         </table>
         <hr />
 
