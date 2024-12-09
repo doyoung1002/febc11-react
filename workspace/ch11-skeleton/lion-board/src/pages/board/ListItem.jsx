@@ -20,7 +20,8 @@ export default function ListItem({ item }) {
         <td className='p-2 text-center'>{item._id}</td>
         <td className='p-2 truncate indent-4'>
           <Link
-            to='/info/2'
+            // to={`/${item.type}/${item._id}`} 절대 경로
+            to={`${item._id}`} // 상대 경로
             className='cursor-pointer'
           >
             {item.title}

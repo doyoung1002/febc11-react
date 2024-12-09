@@ -12,7 +12,7 @@ export default function List() {
 
   const { data } = useQuery({
     queryKey: ['posts', type],
-    queryFn: () => axios.get('/posts', { params: { type } }),
+    queryFn: () => axios.get('/posts', { params: { type } }), //  절대 경로를 해야하고 꺼내와야하는경우 type 쓰면 된다.
     select: (res) => res.data,
     staleTime: 1000 * 10,
   });
