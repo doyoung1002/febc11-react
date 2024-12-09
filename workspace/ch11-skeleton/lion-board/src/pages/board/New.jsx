@@ -1,10 +1,12 @@
 import useAxiosInstance from '@hooks/useAxiosInstance';
-import { useMutation } from '@tanstack/react-query';
-import { Link, useParams } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import InputError from '@components/InputError';
 
 export default function New() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -14,11 +16,28 @@ export default function New() {
   const axios = useAxiosInstance();
 
   const { type, _id } = useParams();
+  const queryClient = useQueryClient();
 
   const addItem = useMutation({
-    mutationFn: () => axios.post(`/posts/${_id}`),
-    select: (res) => res.data,
-    staleTime: 1000 * 10,
+    mutationFn: (formData) => {
+      // const body = {
+      //   title: formData.title,
+      //   content: formData.content,
+      //   type: type
+      // }
+      // 위 코드가 아래로 한줄로 생략이 가능, formData에 type은 게시판의 종류를 분별하기 위함이다.
+      formData.type = type;
+      return axios.post(`/posts/`, formData);
+    },
+    onSuccess: () => {
+      alert('게시물이 등록되었습니다.');
+      // 지정한 쿼리키를 가지고 있는, 캐시된 데이터를 invalid 시켜라
+      queryClient.invalidateQueries(['posts', type]);
+      navigate(`/${type}`);
+    },
+    onError: (err) => {
+      console.error(err);
+    },
   });
 
   return (
