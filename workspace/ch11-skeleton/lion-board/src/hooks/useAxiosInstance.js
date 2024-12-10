@@ -14,7 +14,7 @@ function useAxiosInstance() {
   // 요청 인터셉터 추가하기
   instance.interceptors.request.use((config) => {
     config.headers['Authorization'] =
-      `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjQ0LCJ0eXBlIjoidXNlciIsIm5hbWUiOiIxMjM0IiwiZW1haWwiOiJhYUBuYXZlci5jb20iLCJsb2dpblR5cGUiOiJlbWFpbCIsImlhdCI6MTczMzcyNjA5OSwiZXhwIjoxNzMzODEyNDk5LCJpc3MiOiJGRVNQIn0.agltSjgMppB3hm00Kwav_iya6puF6epA1vp-gPrVaWo`;
+      `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjcyLCJ0eXBlIjoidXNlciIsIm5hbWUiOiLsnbTrj4TsmIEiLCJlbWFpbCI6ImFzZEBuYXZlci5jb20iLCJpbWFnZSI6eyJvcmlnaW5hbG5hbWUiOiLDocKEwoLDocKFwq7DocKEwoDDocKFwq7DocKEwonDocKFwqbDocKEwovDocKFwq3DocKGwrw_LmpwZWciLCJuYW1lIjoiZUliOXViVHRvLmpwZWciLCJwYXRoIjoiL2ZpbGVzLzAwLWJydW5jaC9lSWI5dWJUdG8uanBlZyJ9LCJsb2dpblR5cGUiOiJlbWFpbCIsImlhdCI6MTczMzgwNTg3NCwiZXhwIjoxNzMzODkyMjc0LCJpc3MiOiJGRVNQIn0.I0oLJuMbsnpvf1N51Gq5QWWB46t1sh6l9Wlei6C8Ng0`;
     // 요청이 전달되기 전에 필요한 공통 작업 수행
     config.params = {
       delay: 500,
