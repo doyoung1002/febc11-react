@@ -1,6 +1,8 @@
+import useUserStore from '@zustand/userStore';
 import axios from 'axios';
 
 function useAxiosInstance() {
+  const { user } = useUserStore();
   const instance = axios.create({
     baseURL: 'https://11.fesp.shop',
     timeout: 1000 * 15,
@@ -13,8 +15,12 @@ function useAxiosInstance() {
 
   // 요청 인터셉터 추가하기
   instance.interceptors.request.use((config) => {
-    config.headers['Authorization'] =
-      `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjcyLCJ0eXBlIjoidXNlciIsIm5hbWUiOiLsnbTrj4TsmIEiLCJlbWFpbCI6ImFzZEBuYXZlci5jb20iLCJpbWFnZSI6eyJvcmlnaW5hbG5hbWUiOiLDocKEwoLDocKFwq7DocKEwoDDocKFwq7DocKEwonDocKFwqbDocKEwovDocKFwq3DocKGwrw_LmpwZWciLCJuYW1lIjoiZUliOXViVHRvLmpwZWciLCJwYXRoIjoiL2ZpbGVzLzAwLWJydW5jaC9lSWI5dWJUdG8uanBlZyJ9LCJsb2dpblR5cGUiOiJlbWFpbCIsImlhdCI6MTczMzgwNTg3NCwiZXhwIjoxNzMzODkyMjc0LCJpc3MiOiJGRVNQIn0.I0oLJuMbsnpvf1N51Gq5QWWB46t1sh6l9Wlei6C8Ng0`;
+    if (user) {
+      config.headers['Authorization'] = `Bearer ${user.accessToken}`; // 일반 회원
+    }
+    // config.headers['Authorization'] =
+    // `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjcyLCJ0eXBlIjoidXNlciIsIm5hbWUiOiLsnbTrj4TsmIEiLCJlbWFpbCI6ImFzZEBuYXZlci5jb20iLCJpbWFnZSI6eyJvcmlnaW5hbG5hbWUiOiLDocKEwoLDocKFwq7DocKEwoDDocKFwq7DocKEwonDocKFwqbDocKEwovDocKFwq3DocKGwrw_LmpwZWciLCJuYW1lIjoiZUliOXViVHRvLmpwZWciLCJwYXRoIjoiL2ZpbGVzLzAwLWJydW5jaC9lSWI5dWJUdG8uanBlZyJ9LCJsb2dpblR5cGUiOiJlbWFpbCIsImlhdCI6MTczMzgwNTg3NCwiZXhwIjoxNzMzODkyMjc0LCJpc3MiOiJGRVNQIn0.I0oLJuMbsnpvf1N51Gq5QWWB46t1sh6l9Wlei6C8Ng0`;
+
     // 요청이 전달되기 전에 필요한 공통 작업 수행
     config.params = {
       delay: 500,
