@@ -26,7 +26,7 @@ function TodoAdd() {
       alert('할 일이 추가되었습니다.');
       // 지정한 키의 쿼리를 무효화
       // 기존의 기억하던 캐시는 전 데이터이기때문에 삭제를 하여 새로운 목록을 불러올 수 있도록
-      queryClient.invalidateQueries(['todolist']);
+      queryClient.invalidateQueries({ queryKey: ['todolist'] });
       // 할 일 목록으로 이동
       navigate(-1);
     },

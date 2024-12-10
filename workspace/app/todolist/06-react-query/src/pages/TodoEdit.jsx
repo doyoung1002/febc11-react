@@ -33,7 +33,7 @@ function TodoEdit() {
     mutationFn: (formData) => axios.patch(`/todolist/${item._id}`, formData),
     onSuccess: () => {
       alert('할 일이 수정 되었습니다.');
-      queryClient.invalidateQueries(['todolist', item._id]);
+      queryClient.invalidateQueries({ queryKey: ['todolist', item._id] });
       navigate(-1);
     },
     onError: (err) => {

@@ -32,7 +32,7 @@ export default function New() {
     onSuccess: () => {
       alert('게시물이 등록되었습니다.');
       // 지정한 쿼리키를 가지고 있는, 캐시된 데이터를 invalid 시켜라
-      queryClient.invalidateQueries(['posts', type]);
+      queryClient.invalidateQueries({ queryKey: ['posts', type] });
       navigate(`/${type}`);
     },
     onError: (err) => {

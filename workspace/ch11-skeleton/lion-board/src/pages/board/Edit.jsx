@@ -37,7 +37,7 @@ export default function Edit() {
     },
     onSuccess: () => {
       alert('게시물이 수정되었습니다.');
-      queryClient.invalidateQueries(['posts', _id]);
+      queryClient.invalidateQueries({ queryKey: ['posts', _id] });
       navigate(`/${type}/${_id}`);
     },
     onError: (err) => {
