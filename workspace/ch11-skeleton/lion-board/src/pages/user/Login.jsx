@@ -14,7 +14,14 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
     setError, // 에러 수동으로 추가할 때
-  } = useForm();
+  } = useForm({
+    // 이메일, 비밀번호를 기본값으로 설정
+    // 어드민 계정을 하나 만들어서 나중에 배포, 면접때 기본적으로 세팅
+    defaultValues: {
+      email: 'zxc@naver.com',
+      password: '12341234',
+    },
+  });
 
   const axios = useAxiosInstance();
 
