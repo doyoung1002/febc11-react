@@ -1,5 +1,6 @@
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import useUserStore from '@zustand/userStore';
 import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 
@@ -10,6 +11,7 @@ CommentListItem.propTypes = {
     user: PropTypes.shape({
       name: PropTypes.string,
       image: PropTypes.object,
+      _id: PropTypes.number,
     }).isRequired,
     content: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
@@ -18,11 +20,14 @@ CommentListItem.propTypes = {
 };
 
 export default function CommentListItem({ item }) {
+  const { user } = useUserStore();
   const queryClient = useQueryClient();
   const axios = useAxiosInstance();
   const { _id } = useParams();
 
   const removeItem = useMutation({
+    // useParams()에서 받아온 _id : 게시글의 고유한 id === {_id}
+    // prop(=item)으로 받아온 _id : 댓글의 고유한 id === {reply_id}
     mutationFn: (_id) => axios.delete(`/posts/${_id}/replies/${item._id}`),
 
     onSuccess: () => {
@@ -55,13 +60,16 @@ export default function CommentListItem({ item }) {
       </div>
       <div className='flex justify-between items-center mb-2'>
         <pre className='whitespace-pre-wrap text-sm'>{item.content}</pre>
-        <button
-          onClick={() => removeItem.mutate(_id)}
-          type='button'
-          className='bg-red-500 py-1 px-2 text-sm text-white font-semibold ml-2 hover:bg-amber-400 rounded'
-        >
-          삭제
-        </button>
+
+        {user?._id === item.user._id && (
+          <button
+            onClick={() => removeItem.mutate(_id)}
+            type='button'
+            className='bg-red-500 py-1 px-2 text-sm text-white font-semibold ml-2 hover:bg-amber-400 rounded'
+          >
+            삭제
+          </button>
+        )}
       </div>
     </div>
   );
