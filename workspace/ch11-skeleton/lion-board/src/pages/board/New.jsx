@@ -44,7 +44,7 @@ export default function New() {
   return (
     <>
       <Helmet>
-        <title>{type} - 멋사컴</title>
+        <title>새 게시글 - 멋사컴</title>
         <meta
           property='og:title'
           content='새 게시글 등록'
