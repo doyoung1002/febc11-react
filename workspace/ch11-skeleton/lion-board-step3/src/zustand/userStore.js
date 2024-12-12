@@ -1,4 +1,4 @@
-import { create } from 'Zustand';
+import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 const UserStore = (set) => ({

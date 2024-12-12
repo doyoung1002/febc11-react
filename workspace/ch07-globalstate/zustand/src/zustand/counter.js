@@ -1,4 +1,4 @@
-import { create } from 'Zustand';
+import { create } from 'zustand';
 
 const useCounterState = create((set, get) => ({
   count: 6, // 상태 관리할 속성

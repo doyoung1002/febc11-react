@@ -1,4 +1,4 @@
-import { create } from 'Zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 const ThemeStore = (set) => ({
