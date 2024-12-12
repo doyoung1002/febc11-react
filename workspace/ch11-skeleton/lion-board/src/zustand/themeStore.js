@@ -1,5 +1,5 @@
-import { create } from 'Zustand';
 import { persist } from 'zustand/middleware';
+import { create } from 'zustand/react';
 
 const ThemeStore = (set) => ({
   // isDarkMode: false,
