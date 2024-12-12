@@ -23,12 +23,9 @@ function useAxiosInstance() {
 
   // 요청 인터셉터 추가하기
   instance.interceptors.request.use((config) => {
-    if (user) {
-      let token = user.accessToken;
-      if (config.url === REFRESH_URL) {
-        token = user.refreshToken;
-      }
-      config.headers['Authorization'] = `Bearer ${token}`; // 일반 회원
+    // refresh 요청일 경우 Authorization 헤더는 이미 refresh token으로 지정되어 있음
+    if (user && config.url !== REFRESH_URL) {
+      config.headers.Authorization = `Bearer ${user.accessToken}`;
     }
 
     // 요청이 전달되기 전에 필요한 공통 작업 수행
@@ -51,47 +48,40 @@ function useAxiosInstance() {
       // 2xx 외의 범위에 있는 상태 코드는 이 함수가 호출됨
       // 공통 에러 처리
       console.error('인터셉터', error);
-
       const { config, response } = error;
 
       if (response?.status === 401) {
-        // 인증 실패 401
+        // 인증 실패
         if (config.url === REFRESH_URL) {
           // refresh token 만료
-          const gotoLogin = confirm('로그인 후에 이용 가능합니다. \n로그인 페이지로 이동하시겠습니까?');
-          gotoLogin && navigate('/users/login', { state: { from: location.pathname } });
-          // state로 내가 마지막에 어디에서 작업을 했는지, 기억하게끔 저장하는 것
-        } else {
-          // 로그인하지 않았거나 access token 만료된 경우
+          navigateLogin();
+        } else if (user) {
+          // 로그인 했으나 access token 만료된 경우
           // refresh 토큰으로 access 토큰 재발급 요청
-          const accessToken = await getAccessToken(instance);
-          if (accessToken) {
-            // 갱신된 accessToken으로 요청을 다시 보냄
-            // 사용자가 재발급 받는걸 눈치 못채게 해야함
-            // 그래서 다시 서버 요청함
-            config.headers.Authorization = `Bearer ${accessToken}`;
-            return axios(config);
-          }
+          const {
+            data: { accessToken },
+          } = await instance.get(REFRESH_URL, {
+            headers: {
+              Authorization: `Bearer ${user.refreshToken}`,
+            },
+          });
+          setUser({ ...user, accessToken });
+          // 갱신된 accessToken으로 재요청
+          config.headers.Authorization = `Bearer ${accessToken}`;
+          return axios(config);
+        } else {
+          // 로그인 안한 경우
+          navigateLogin();
         }
-      } else {
-        return Promise.reject(error);
       }
+      return Promise.reject(error);
     }
   );
 
-  // access token 재발급
-  async function getAccessToken(instance) {
-    try {
-      // 서버로부터 받은 data
-      const {
-        data: { accessToken },
-      } = await instance.get(REFRESH_URL);
-      // 기존에 있던 엑세스토큰을 새로운 액세스토큰으로 갱신
-      setUser({ ...user, accessToken });
-      return accessToken;
-    } catch (err) {
-      console.error(err);
-    }
+  function navigateLogin() {
+    const gotoLogin = confirm('로그인 후 이용 가능합니다.\n로그인 페이지로 이동하시겠습니까?');
+    // state로 내가 마지막에 어디에서 작업을 했는지, 기억하게끔 저장하는 것
+    gotoLogin && navigate('/users/login', { state: { from: location.pathname } });
   }
 
   return instance;
