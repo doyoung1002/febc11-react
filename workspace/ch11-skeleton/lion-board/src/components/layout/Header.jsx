@@ -18,7 +18,11 @@ export default function Header() {
         <title>멋쟁이 사자처럼 커뮤니티 - 멋사컴</title>
         <meta
           property='og:title'
-          content='메인페이지'
+          content='멋쟁이 사자처럼 커뮤니티 - 멋사컴'
+        />
+        <meta
+          property='og:description'
+          content='멋쟁이 사자처럼 커뮤니티 - 멋사컴'
         />
       </Helmet>
       <header className='px-8 min-w-80 bg-slate-100 dark:bg-gray-600 text-gray-800 dark:text-gray-200 transition-color duration-500 ease-in-out'>
