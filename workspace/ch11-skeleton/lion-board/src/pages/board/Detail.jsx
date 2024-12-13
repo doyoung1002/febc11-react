@@ -55,8 +55,8 @@ export default function Detail() {
       <main className='container mx-auto mt-4 px-4'>
         <section className='mb-8 p-4'>
           <form onSubmit={onSubmit}>
-            <div className='font-semibold text-xl'>제목 : {data.item.title}</div>
-            <div className='text-right text-gray-400'>작성자 : {data.item.user.name}</div>
+            <div className='font-semibold text-xl'>제목: {data.item.title}</div>
+            <div className='text-right text-gray-400'>작성자: {data.item.user.name}</div>
             <div className='mb-4'>
               <div>
                 <pre className='font-roboto w-full p-2 whitespace-pre-wrap'>{data.item.content}</pre>
