@@ -2,7 +2,7 @@ import InputError from '@components/InputError';
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import { useMutation } from '@tanstack/react-query';
 import useUserStore from '@zustand/userStore';
-import { Helmet } from 'react-helmet-async';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -59,17 +59,19 @@ export default function Login() {
 
   return (
     <>
-      <Helmet>
-        <title>로그인 - 멋사컴</title>
-        <meta
-          property='og:title'
-          content='로그인'
-        />
-        <meta
-          property='og:description'
-          content='로그인하는 페이지'
-        />
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>로그인 - 멋사컴</title>
+          <meta
+            property='og:title'
+            content='로그인'
+          />
+          <meta
+            property='og:description'
+            content='로그인하는 페이지'
+          />
+        </Helmet>
+      </HelmetProvider>
       <main className='min-w-80 flex-grow flex items-center justify-center'>
         <div className='p-8 border border-gray-200 rounded-lg w-full max-w-md dark:bg-gray-600 dark:border-0'>
           <div className='text-center py-4'>
