@@ -1,7 +1,7 @@
 import InputError from '@components/InputError';
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Helmet } from 'react-helmet-async';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -47,17 +47,19 @@ export default function Edit() {
   });
   return (
     <>
-      <Helmet>
-        <title>{data.item.title} - 멋사컴</title>
-        <meta
-          property='og:title'
-          content={data.item.title}
-        />
-        <meta
-          property='og:description'
-          content={data.item.content}
-        />
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>{data.item.title} - 멋사컴</title>
+          <meta
+            property='og:title'
+            content={data.item.title}
+          />
+          <meta
+            property='og:description'
+            content={data.item.content}
+          />
+        </Helmet>
+      </HelmetProvider>
       <main className='min-w-[320px] p-4'>
         <div className='text-center py-4'>
           <h2 className='text-2xl font-bold text-gray-700 dark:text-gray-200'>게시글 수정</h2>
