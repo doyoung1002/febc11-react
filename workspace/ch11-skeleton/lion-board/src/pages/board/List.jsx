@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import useUserStore from '@zustand/userStore';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 
 export default function List() {
   const axios = useAxiosInstance();
@@ -43,19 +43,17 @@ export default function List() {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>{currentTitle} - 멋사컴</title>
-          <meta
-            property='og:title'
-            content={currentTitle}
-          />
-          <meta
-            property='og:description'
-            content={`${currentTitle} 페이지입니다.`}
-          />
-        </Helmet>
-      </HelmetProvider>
+      <Helmet>
+        <title>{currentTitle} - 멋사컴</title>
+        <meta
+          property='og:title'
+          content={currentTitle}
+        />
+        <meta
+          property='og:description'
+          content={`${currentTitle} 페이지입니다.`}
+        />
+      </Helmet>
       <main className='min-w-80 p-10'>
         <div className='text-center py-4'>
           <h2 className='pb-4 text-2xl font-bold text-gray-700 dark:text-gray-200'>{currentTitle}</h2>

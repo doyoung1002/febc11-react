@@ -2,7 +2,7 @@ import useAxiosInstance from '@hooks/useAxiosInstance';
 import CommentList from '@pages/board/CommentList';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useUserStore from '@zustand/userStore';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export default function Detail() {
@@ -41,19 +41,18 @@ export default function Detail() {
   }
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>{data.item.title} - 멋사컴</title>
-          <meta
-            property='og:title'
-            content={data.item.title}
-          />
-          <meta
-            property='og:description'
-            content={data.item.content}
-          />
-        </Helmet>
-      </HelmetProvider>
+      <Helmet>
+        <title>{data.item.title} - 멋사컴</title>
+        <meta
+          property='og:title'
+          content={data.item.title}
+        />
+        <meta
+          property='og:description'
+          content={data.item.content}
+        />
+      </Helmet>
+
       <main className='container mx-auto mt-4 px-4'>
         <section className='mb-8 p-4'>
           <form onSubmit={onSubmit}>

@@ -1,7 +1,7 @@
 import InputError from '@components/InputError';
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import { useMutation } from '@tanstack/react-query';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -55,19 +55,17 @@ export default function Signup() {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>회원가입 - 멋사컴</title>
-          <meta
-            property='og:title'
-            content='회원가입'
-          />
-          <meta
-            property='og:description'
-            content='회원가입 하는 페이지'
-          />
-        </Helmet>
-      </HelmetProvider>
+      <Helmet>
+        <title>회원가입 - 멋사컴</title>
+        <meta
+          property='og:title'
+          content='회원가입'
+        />
+        <meta
+          property='og:description'
+          content='회원가입 하는 페이지'
+        />
+      </Helmet>
       <main className='min-w-80 flex-grow flex items-center justify-center'>
         <div className='p-8 border border-gray-200 rounded-lg w-full max-w-md dark:bg-gray-600 dark:border-0'>
           <div className='text-center py-4'>
