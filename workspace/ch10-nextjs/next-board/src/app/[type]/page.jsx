@@ -10,10 +10,20 @@ async function fetchPosts(type) {
   return await res.json();
 }
 
-export const metadata = {
-  title: '게시물 목록',
-  description: '게시물 목록 페이지입니다.',
-};
+// export const metadata = {
+//   title: '게시물 목록',
+//   description: '게시물 목록 페이지입니다.',
+// };
+
+// 동적으로 metadata를 만들때 사용한다.
+// metadata 객체를 반환하는 함수
+export async function generateMetadata({ params }) {
+  const { type } = await params;
+  return {
+    title: `${type} 게시물 목록`,
+    description: '게시물 목록 페이지입니다.',
+  };
+}
 
 export default async function Page({ params }) {
   // 리액트에서는 컴포넌트 앞에 async을 붙일 수 없다.
