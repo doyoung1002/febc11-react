@@ -14,17 +14,6 @@ export default function Header() {
 
   return (
     <>
-      <Helmet>
-        <title>멋쟁이 사자처럼 커뮤니티 - 멋사컴</title>
-        <meta
-          property='og:title'
-          content='멋쟁이 사자처럼 커뮤니티 - 멋사컴'
-        />
-        <meta
-          property='og:description'
-          content='멋쟁이 사자처럼 커뮤니티 - 멋사컴'
-        />
-      </Helmet>
       <header className='px-8 min-w-80 bg-slate-100 dark:bg-gray-600 text-gray-800 dark:text-gray-200 transition-color duration-500 ease-in-out'>
         <nav className='flex flex-wrap justify-center items-center p-4 md:flex-nowrap md:justify-between'>
           <div className='w-1/2 order-1 md:w-auto'>
