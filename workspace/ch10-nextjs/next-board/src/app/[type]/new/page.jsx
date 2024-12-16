@@ -1,4 +1,9 @@
-export default function Page() {
+import { addPost } from '@/actions/postAction';
+import Link from 'next/link';
+
+// 수동으로 formData로 하는 법
+export default async function Page({ params }) {
+  const { type } = await params;
   return (
     <>
       <main className='min-w-[320px] p-4'>
@@ -6,7 +11,12 @@ export default function Page() {
           <h2 className='text-2xl font-bold text-gray-700 dark:text-gray-200'>게시글 등록</h2>
         </div>
         <section className='mb-8 p-4'>
-          <form action='/info/1'>
+          <form action={addPost}>
+            <input
+              type='hidden'
+              name='type'
+              value={type}
+            />
             <div className='my-4'>
               <label
                 className='block text-lg content-center'
@@ -47,7 +57,7 @@ export default function Page() {
               >
                 등록
               </button>
-              <a
+              <Link
                 href='/info'
                 className='bg-gray-900 py-1 px-4 text-base text-white font-semibold ml-2 hover:bg-amber-400 rounded'
               >
