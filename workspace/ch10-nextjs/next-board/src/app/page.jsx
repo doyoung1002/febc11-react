@@ -1,5 +1,12 @@
 import Link from 'next/link';
 
+export const metadata = {
+  title: {
+    // absolute로 지정하게 되면, 내가 작성한 걸로 지정된다.
+    absolute: '멋쟁이 사자처럼 커뮤니티',
+  },
+};
+
 export default function Home() {
   return (
     <main className='container mx-auto mt-10 p-4 transition-color'>

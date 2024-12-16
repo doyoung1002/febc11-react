@@ -1,6 +1,27 @@
 import './globals.css';
 import Link from 'next/link';
 
+export const metadata = {
+  title: {
+    // default 지정을 안했다면, 기본으로 보이는 타이틀
+    default: '멋쟁이 사자처럼 커뮤니티 - 멋사컴즈',
+    // 지정한게 있다면 %s 자리에 출력됨
+    template: '%s | 멋사컴즈',
+  },
+  description: '유용한 정보를 나누고 공유하세요.',
+  keywords: '커뮤니티, 소통, 포럼, 관심사, 온라인 모임, 커뮤니티 서비스',
+  author: [{ name: 'Front End Boot Camp' }],
+
+  openGraph: {
+    title: '멋사컴에 오신걸 환영합니다.',
+    description: '',
+    image: ['/images/febc.png'],
+    url: 'https://board.fesp.shop',
+    type: 'website',
+    siteName: '멋사컴즈',
+  },
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang='ko'>
@@ -14,45 +35,6 @@ export default function RootLayout({ children }) {
         <meta
           name='viewport'
           content='width=device-width, initial-scale=1.0'
-        />
-        <title>멋쟁이 사자처럼 커뮤니티 - 멋사컴</title>
-
-        <meta
-          name='description'
-          content='다양한 주제의 커뮤니티와 활발한 소통을 위한 플랫폼입니다. 관심사에 따라 참여하고, 의견을 나누세요.'
-        />
-        <meta
-          name='keywords'
-          content='커뮤니티, 소통, 포럼, 관심사, 온라인 모임, 커뮤니티 서비스'
-        />
-        <meta
-          name='author'
-          content='Front End Boot Camp'
-        />
-
-        <meta
-          property='og:title'
-          content='멋사컴에 오신걸 환영합니다.'
-        />
-        <meta
-          property='og:description'
-          content='유용한 정보를 나누고 공유하세요.'
-        />
-        <meta
-          property='og:image'
-          content='/images/febc.png'
-        />
-        <meta
-          property='og:url'
-          content='https://board.fesp.shop'
-        />
-        <meta
-          property='og:type'
-          content='website'
-        />
-        <meta
-          property='og:site_name'
-          content='멋사컴'
         />
       </head>
       <body>

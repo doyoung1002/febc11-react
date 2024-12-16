@@ -10,6 +10,11 @@ async function fetchPosts(type) {
   return await res.json();
 }
 
+export const metadata = {
+  title: '게시물 목록',
+  description: '게시물 목록 페이지입니다.',
+};
+
 export default async function Page({ params }) {
   // 리액트에서는 컴포넌트 앞에 async을 붙일 수 없다.
   // 하지만 next.js에서는 가능한데, 서버 컴포넌트에는 가능하다.,
